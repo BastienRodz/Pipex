@@ -6,13 +6,13 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:36:00 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/15 17:37:04 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/15 18:22:35 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-
+#include <unistd.h>
 
 #endif
