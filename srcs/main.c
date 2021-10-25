@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:18:24 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/25 13:49:47 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/25 14:17:18 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ char**	get_path(char **envp)
 int	main(int ac, char **av, char **envp)
 {
 	char	**path;
-	//int		pid;
-	//int		_pipe[2][2];
+	int		pid;
+	int		_pipe[2][2];
 
 	path = get_path(envp);
 	if (ac != 5)
@@ -66,6 +66,15 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (!path)
 		_error(1);
+	if (pipe(_pipe[1]) == -1)
+		_error(2);
+	pid = fork();
+	if (pid == -1)
+		_error(3);
+	if (pid > 0)
+		parent_process(argv[3], envp, _pipe);
+	else
+		child_process(argv[2], envp, _pipe);
 
 	/* int _pipe[2][2];
 	int p[2];
@@ -92,7 +101,6 @@ pipe(p);
 		//ls dans pipe
 		//dup2 (entree cmd suivante, sortie commande actuelle)
 	}*/
-
-
+	
 	return (0);
 }
