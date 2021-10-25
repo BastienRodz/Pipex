@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:18:24 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/25 14:17:18 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/25 16:28:58 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,40 +67,20 @@ int	main(int ac, char **av, char **envp)
 	if (!path)
 		_error(1);
 	if (pipe(_pipe[1]) == -1)
+	{
+		ft_to_break_free(path);
 		_error(2);
+	}
 	pid = fork();
 	if (pid == -1)
+	{
+		ft_to_break_free(path);
 		_error(3);
-	if (pid > 0)
-		parent_process(argv[3], envp, _pipe);
-	else
-		child_process(argv[2], envp, _pipe);
-
-	/* int _pipe[2][2];
-	int p[2];
-	read(p[0])
-	write(p[1])
-	bool _p_before;
-	bool _p_after;
-
-pipe(p);
-
-	fork()
-	{//enfant
-
-		//if pipe after
-		dup2(sortie cmd actuelle > entree cmd suivante)
-		//if pipe before
-		dup2(sortie cmd precedente > entree cmd actuelle)
-
-		execve( "/bin/echo", char ** , env);
-		//ls dans le pipe
-
 	}
-	{//parent
-		//ls dans pipe
-		//dup2 (entree cmd suivante, sortie commande actuelle)
-	}*/
-	
+	files_opener(_pipe, av);
+	if (pid > 0)
+		parent_process(av[3], envp, path, _pipe);
+	else
+		child_process(av[2], envp, path, _pipe);
 	return (0);
 }

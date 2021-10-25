@@ -6,7 +6,7 @@
 #    By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/15 17:18:05 by barodrig          #+#    #+#              #
-#    Updated: 2021/10/25 13:50:43 by barodrig         ###   ########.fr        #
+#    Updated: 2021/10/25 16:00:54 by barodrig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,11 @@ OS	:= $(shell uname -s)
 
 NAME = pipex
 
-CC = clang -g3 -Wall -Wextra -Werror
+CC = clang -fsanitize=address -g3 -Wall -Wextra -Werror
 
 INC= -I./includes
 
-SRCS = 	main ft_errors_manager\
+SRCS = 	main ft_errors_manager ft_execute_cmds ft_files_opener\
 
 FIL = $(addsuffix .c, $(addprefix srcs/, $(SRCS)))
 
