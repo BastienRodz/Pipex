@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:18:24 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/26 15:44:20 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/26 16:32:20 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(int ac, char **av, char **envp)
 	if (pipe(_pipe[1]) == -1)
 	{
 		ft_to_break_free(path);
-		_error(2);
+		_error(3);
 	}
 	pid = fork();
 	if (pid == -1)

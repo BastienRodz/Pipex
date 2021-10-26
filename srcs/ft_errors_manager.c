@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 13:46:10 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/26 15:53:32 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/26 16:35:11 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,12 @@ void	_error(int i)
 	}
 	if	(i == 2)
 	{
-		write(2, "ONE OF THE ARGUMENT IS EMPTY\n", 29);
+		write(2, "ONE OF THE ARGUMENT IS EMPTY.\n", 30);
+		exit(0);
+	}
+	if	(i == 3)
+	{
+		write(2, "ERROR WHILE CREATING PIPE.\n", 27);
 		exit(0);
 	}
 }
