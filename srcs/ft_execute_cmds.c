@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:16:47 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/26 15:42:37 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/26 15:59:43 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@ char	*testpath(char *path, char *cmd)
 {
 	char	*pathname;
 
+	if (cmd == NULL)
+	{
+		if (path)
+			free(path);
+		if (cmd)
+			free(cmd);
+		_error(2);
+	}
 	pathname = (char *)calloc(sizeof(char), (ft_strlen(path) + ft_strlen(cmd) + 2));
 	ft_strcat(path, pathname);
 	ft_strcat("/", pathname);
@@ -23,7 +31,7 @@ char	*testpath(char *path, char *cmd)
 	return (pathname);
 }
 
-void	find_cmd_path(char **cmd, char **envp, char **path, int _pipe[2][2])
+void	find_cmd_path(char **builtcmd, char **envp, char **path, int _pipe[2][2])
 {
 	char	*pathname;
 	int		i;
@@ -32,20 +40,19 @@ void	find_cmd_path(char **cmd, char **envp, char **path, int _pipe[2][2])
 	pathname = NULL;
 	while (path[++i] && pathname == NULL)
 	{
-		pathname = testpath(path[i], cmd[0]);
+		pathname = testpath(path[i], builtcmd[0]);
 		if (access(pathname, F_OK) == 0)
 			break;
 		free(pathname);
 		pathname = NULL;
 	}
-	free(cmd[0]);
-	// TO CHANGE
-	cmd[0] = pathname;
+	free(builtcmd[0]);
+	builtcmd[0] = pathname;
 	if (pathname == NULL)
-		_error_cmd(cmd, _pipe);
+		_error_cmd(builtcmd, _pipe);
 	else
 	{
-		execve(pathname, cmd, envp);
+		execve(pathname, builtcmd, envp);
 		exit(0);
 	}
 	return ;

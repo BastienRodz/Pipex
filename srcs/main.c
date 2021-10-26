@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:18:24 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/26 15:36:51 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/26 15:44:20 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	main(int ac, char **av, char **envp)
 		ft_to_break_free(path);
 		_error(3);
 	}
-	//files_opener(_pipe[0], av);
 	if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
