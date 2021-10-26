@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:18:24 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/25 16:28:58 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/26 15:36:51 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ int	main(int ac, char **av, char **envp)
 	char	**path;
 	int		pid;
 	int		_pipe[2][2];
+	int		status;
 
+	status = 0;
 	path = get_path(envp);
 	if (ac != 5)
 		_error(0);
@@ -77,10 +79,13 @@ int	main(int ac, char **av, char **envp)
 		ft_to_break_free(path);
 		_error(3);
 	}
-	files_opener(_pipe, av);
+	//files_opener(_pipe[0], av);
 	if (pid > 0)
-		parent_process(av[3], envp, path, _pipe);
+	{
+		waitpid(pid, &status, 0);
+		parent_process(av, envp, path, _pipe);
+	}
 	else
-		child_process(av[2], envp, path, _pipe);
+		child_process(av, envp, path, _pipe);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:36:00 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/25 16:26:50 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/26 15:37:01 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,6 @@
 # include "./libft.h"
 
 /**
-** FILES CHECKER
-**/
-void	files_opener(int fd[2][2], char **av);
-
-/**
 ** ERROR MANAGER
 **/
 void	_error(int i);
@@ -39,7 +34,7 @@ void	_error_cmd(char **cmd, int _pipe[2][2]);
 /**
 ** EXECUTION
 **/
-void	parent_process(char *cmd, char **envp, char **path, int _pipe[2][2]);
-void	child_process(char *cmd, char **envp, char **path, int _pipe[2][2]);
+void	parent_process(char **av, char **envp, char **path, int _pipe[2][2]);
+void	child_process(char **av, char **envp, char **path, int _pipe[2][2]);
 
 #endif

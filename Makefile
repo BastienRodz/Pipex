@@ -6,7 +6,7 @@
 #    By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/15 17:18:05 by barodrig          #+#    #+#              #
-#    Updated: 2021/10/25 16:00:54 by barodrig         ###   ########.fr        #
+#    Updated: 2021/10/26 15:31:15 by barodrig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ CC = clang -fsanitize=address -g3 -Wall -Wextra -Werror
 
 INC= -I./includes
 
-SRCS = 	main ft_errors_manager ft_execute_cmds ft_files_opener\
+SRCS = 	main ft_errors_manager ft_execute_cmds\
 
 FIL = $(addsuffix .c, $(addprefix srcs/, $(SRCS)))
 
