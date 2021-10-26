@@ -6,13 +6,17 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:16:47 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/26 15:59:43 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/26 16:29:40 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-char	*testpath(char *path, char *cmd)
+/**
+** As its name says "testpath_builder" will create a path to try to access our command.
+**/
+
+char	*testpath_builder(char *path, char *cmd)
 {
 	char	*pathname;
 
@@ -31,6 +35,12 @@ char	*testpath(char *path, char *cmd)
 	return (pathname);
 }
 
+/**
+** "find_cmd_path" will call "testpath_builder" and try to access() the test path given by it.
+**	In case of failure it will try another test path.
+**	In case of success it will execve() the cmd path and its flags if there are some.
+**/
+
 void	find_cmd_path(char **builtcmd, char **envp, char **path, int _pipe[2][2])
 {
 	char	*pathname;
@@ -40,7 +50,7 @@ void	find_cmd_path(char **builtcmd, char **envp, char **path, int _pipe[2][2])
 	pathname = NULL;
 	while (path[++i] && pathname == NULL)
 	{
-		pathname = testpath(path[i], builtcmd[0]);
+		pathname = testpath_builder(path[i], builtcmd[0]);
 		if (access(pathname, F_OK) == 0)
 			break;
 		free(pathname);
@@ -57,6 +67,13 @@ void	find_cmd_path(char **builtcmd, char **envp, char **path, int _pipe[2][2])
 	}
 	return ;
 }
+
+/**
+** "child_process" is the process created by the fork. It will take as STDIN the file1 given in av[1].
+** Then it will split av[2] to separate the name of cmd1 from its flags if there are sonme.
+** The function will change the _pipe[1][1] (pipe writing extremity) in STDOUT to allow it to recover the output of cmd1.
+** Finally it will close the reading part of the _pipe and launch the cmd execution by calling find_cmd_path().
+**/
 
 void	child_process(char **av, char **envp, char **path, int _pipe[2][2])
 {
@@ -77,6 +94,13 @@ void	child_process(char **av, char **envp, char **path, int _pipe[2][2])
 	return ;
 }
 
+/**
+** "parent_process" is the main process of our program. It will change as STDIN the _pipe[1][0] (pipe reading extremity).
+** Then it will split av[3] to separate the name of cmd0 from its flags if there are sonme.
+** The function will change the fd[1] in STDOUT to allow it to recover the output of cmd2 (fd[1] is file2 here).
+** Finally it will close the writing part of the _pipe and launch the cmd execution by calling find_cmd_path().
+**/
+
 void	parent_process(char **av, char **envp, char **path, int _pipe[2][2])
 {
 	char	**builtcmd;
@@ -89,7 +113,6 @@ void	parent_process(char **av, char **envp, char **path, int _pipe[2][2])
 	}
 	builtcmd = NULL;
 	builtcmd = ft_split(av[3], ' ');
-	close(_pipe[1][1]);
 	dup2(_pipe[1][0], STDIN_FILENO);
 	dup2(_pipe[0][1], STDOUT_FILENO);
 	close(_pipe[1][1]);
