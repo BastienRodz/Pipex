@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:18:24 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/26 16:32:20 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/26 18:00:58 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,25 +54,12 @@ char**	get_path(char **envp)
 
 }
 
-int	main(int ac, char **av, char **envp)
+void	launch_pipex(char **path, int _pipe[2][2], char **envp, char **av)
 {
-	char	**path;
-	int		pid;
-	int		_pipe[2][2];
-	int		status;
+	int	pid;
+	int	status;
 
 	status = 0;
-	path = get_path(envp);
-	if (ac != 5)
-		_error(0);
-	(void)av;
-	if (!path)
-		_error(1);
-	if (pipe(_pipe[1]) == -1)
-	{
-		ft_to_break_free(path);
-		_error(3);
-	}
 	pid = fork();
 	if (pid == -1)
 	{
@@ -86,5 +73,23 @@ int	main(int ac, char **av, char **envp)
 	}
 	else
 		child_process(av, envp, path, _pipe);
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	char	**path;
+	int		_pipe[2][2];
+
+	path = get_path(envp);
+	if (ac != 5)
+		_error(0);
+	if (!path)
+		_error(1);
+	if (pipe(_pipe[1]) == -1)
+	{
+		ft_to_break_free(path);
+		_error(3);
+	}
+	launch_pipex(path, _pipe, envp, av);
 	return (0);
 }

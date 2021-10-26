@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 13:46:10 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/26 16:35:11 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/26 18:00:39 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,27 @@ void	_error_cmd(char **cmd, int _pipe[2][2])
 	exit(0);
 }
 
+void	_error_next(int i)
+{
+	if (i == 4)
+	{
+		write(2, "Impossible to open file2.\n", 26);
+		exit(0);
+	}
+	else if (i == 5)
+	{
+		write(2, "Impossible to open file1.\n", 26);
+		exit(0);
+	}
+	else if (i == 6)
+	{
+		write(2, "Impossible to find one of the command.\n", 39);
+		exit(0);
+	}
+	else
+		return ;
+}
+
 void	_error(int i)
 {
 	if (i == 0)
@@ -37,19 +58,22 @@ void	_error(int i)
 		write(2, "You need 4 arguments to make this program run.\n", 47);
 		exit(0);
 	}
-	if	(i == 1)
+	else if	(i == 1)
 	{
 		write(2, "ERROR WHILE GETTING CMD PATHS IN ENVIRONMENT VARIABLES.\n", 56);
 		exit(0);
 	}
-	if	(i == 2)
+	else if	(i == 2)
 	{
 		write(2, "ONE OF THE ARGUMENT IS EMPTY.\n", 30);
 		exit(0);
 	}
-	if	(i == 3)
+	else if	(i == 3)
 	{
 		write(2, "ERROR WHILE CREATING PIPE.\n", 27);
 		exit(0);
 	}
+	else
+		_error_next(i);
+	return ;
 }
