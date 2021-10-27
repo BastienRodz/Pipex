@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:18:24 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/26 18:00:58 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/27 11:23:39 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,30 @@ void	launch_pipex(char **path, int _pipe[2][2], char **envp, char **av)
 		child_process(av, envp, path, _pipe);
 }
 
+/**
+** "check_infile" will pre-check if the input file exist BEFORE forking.
+** If I do not pre-check before forking the parent process will keep executing and create,
+** the output file even if the input file does not exist. Which is not a good behaviour compare to bash.
+**/
+
+void	check_infile(char **av)
+{
+	int	fd;
+
+	fd = open(av[1], O_RDONLY, 0777);
+	if (fd == -1)
+		_error(5);
+	else
+		close(fd);
+	return ;
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char	**path;
 	int		_pipe[2][2];
 
+	check_infile(av);
 	path = get_path(envp);
 	if (ac != 5)
 		_error(0);

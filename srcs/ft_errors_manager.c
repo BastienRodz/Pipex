@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 13:46:10 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/26 18:00:39 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/27 11:15:43 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void	_error_next(int i)
 {
 	if (i == 4)
 	{
-		write(2, "Impossible to open file2.\n", 26);
+		write(2, "output: No such file or directory\n", 34);
 		exit(0);
 	}
 	else if (i == 5)
 	{
-		write(2, "Impossible to open file1.\n", 26);
+		write(2, "input: No such file or directory\n", 33);
 		exit(0);
 	}
 	else if (i == 6)
