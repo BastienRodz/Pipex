@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:16:47 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/26 18:00:31 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/10/27 15:58:42 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,17 @@ void	find_cmd_path(char **builtcmd, char **envp, char **path, int _pipe[2][2])
 {
 	char	*pathname;
 	int		i;
-	int		flag;
 
 	i = -1;
-	flag = 0;
 	pathname = NULL;
 	while (path[++i] && pathname == NULL)
 	{
 		pathname = testpath_builder(path[i], builtcmd[0]);
 		if (access(pathname, F_OK) == 0)
-		{
-			flag = 1;
 			break;
-		}
 		free(pathname);
 		pathname = NULL;
 	}
-	if (!flag)
-		_error(6);
 	free(builtcmd[0]);
 	builtcmd[0] = pathname;
 	if (pathname == NULL)
@@ -85,13 +78,19 @@ void	find_cmd_path(char **builtcmd, char **envp, char **path, int _pipe[2][2])
 void	child_process(char **av, char **envp, char **path, int _pipe[2][2])
 {
 	char	**builtcmd;
+	char	*error;
 
+	error = NULL;
 	builtcmd = NULL;
 	_pipe[0][0] = open(av[1], O_RDONLY, 0777);
 	if (_pipe[0][0] == -1)
 	{
 		ft_to_break_free(path);
-		_error(5);
+		error = strerror(errno);
+		write(2, "Error: ", 7);
+		write(2, error, ft_strlen(error));
+		write(2, "\n", 1);
+		exit(1);
 	}
 	builtcmd = ft_split(av[2], ' ');
 	dup2(_pipe[1][1], STDOUT_FILENO);
@@ -111,13 +110,19 @@ void	child_process(char **av, char **envp, char **path, int _pipe[2][2])
 void	parent_process(char **av, char **envp, char **path, int _pipe[2][2])
 {
 	char	**builtcmd;
+	char	*error;
 
+	error = NULL;
 	builtcmd = NULL;
 	_pipe[0][1] = open(av[4], O_CREAT | O_WRONLY | O_TRUNC, 00700);
 	if (_pipe[0][1] == -1)
 	{
 		ft_to_break_free(path);
-		_error(4);
+		error = strerror(errno);
+		write(2, "Error: ", 7);
+		write(2, error, ft_strlen(error));
+		write(2, "\n", 1);
+		exit(1);
 	}
 	builtcmd = ft_split(av[3], ' ');
 	dup2(_pipe[1][0], STDIN_FILENO);
