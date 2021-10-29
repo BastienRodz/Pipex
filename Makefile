@@ -6,7 +6,7 @@
 #    By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/15 17:18:05 by barodrig          #+#    #+#              #
-#    Updated: 2021/10/26 15:31:15 by barodrig         ###   ########.fr        #
+#    Updated: 2021/10/29 14:45:45 by barodrig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,11 @@ OS	:= $(shell uname -s)
 
 NAME = pipex
 
-CC = clang -fsanitize=address -g3 -Wall -Wextra -Werror
+CC = clang -g3 -Wall -Wextra -Werror
 
 INC= -I./includes
+
+BONUS= bonus/main.c srcs/ft_errors_manager.c bonus/ft_execute_cmds_bonus.c\
 
 SRCS = 	main ft_errors_manager ft_execute_cmds\
 
@@ -26,9 +28,7 @@ FIL = $(addsuffix .c, $(addprefix srcs/, $(SRCS)))
 
 OBJ = $(FIL:.c=.o)
 
-BIN = $(addsuffix .o, $(SRCS))
-
-BIN_BONUS = $(addsuffix .o, $(BONUS))
+OBJ_BONUS = $(BONUS:.c=.o)
 
 .c.o:
 	-@${CC} ${INC} -c $< -o ${<:.c=.o}
@@ -41,6 +41,15 @@ $(NAME): $(OBJ)
 	@echo "--> [OK]"
 	@echo "Compiling pipex...."
 	-@$(CC) $(INC) $(OBJ) -Llibft -lft -o $(NAME)
+	@echo "--> [OK]"
+	@echo "Now write : ./pipex file1 | cmd1 | cmd2 | cmd... | cmdX | file2"
+
+bonus: $(OBJ_BONUS)
+	@echo "Compiling libft..."
+	@make -s -C ./libft
+	@echo "--> [OK]"
+	@echo "Compiling pipex with bonus...."
+	-@$(CC) $(INC) $(OBJ_BONUS) -Llibft -lft -o $(NAME)
 	@echo "--> [OK]"
 	@echo "Now write : ./pipex file1 | cmd1 | cmd2 | cmd... | cmdX | file2"
 
