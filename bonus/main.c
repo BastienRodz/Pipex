@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:37:28 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/02 13:55:21 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/02 16:14:51 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,9 @@ void	launch_pipex(t_global *g)
 int	main(int ac, char **av, char **envp)
 {
 	t_global g;
+	char **gnl_line;
 
+	gnl_line = NULL;
 	if (ac < 5)
 		_error(0, NULL);
 	g.path = get_path(envp);
@@ -107,11 +109,6 @@ int	main(int ac, char **av, char **envp)
 	g.envp = envp;
 	if (pipe(g._pipe[1]) == -1)
 		_error(3, g.path);
-	if (ft_strcmp(av[1], "here_doc") == 0)
-	{
-		g.here_doc = 1;
-		g.LIMITER = av[2];
-	}
 	launch_pipex(&g);
 
 	return (0);
