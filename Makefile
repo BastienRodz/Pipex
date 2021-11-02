@@ -6,7 +6,7 @@
 #    By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/15 17:18:05 by barodrig          #+#    #+#              #
-#    Updated: 2021/10/29 14:45:45 by barodrig         ###   ########.fr        #
+#    Updated: 2021/11/02 13:54:00 by barodrig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ bonus: $(OBJ_BONUS)
 clean:
 	@echo "CLEANING ..."
 	@make -s clean -C ./libft
-	@rm -rf $(OBJ)
+	@rm -rf $(OBJ) $(OBJ_BONUS)
 	@echo "--> [OK]"
 
 fclean: clean

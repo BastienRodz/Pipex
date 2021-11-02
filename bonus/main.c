@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:37:28 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/29 14:59:08 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/02 13:55:21 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	launch_pipex(t_global *g)
 	{
 		g->cmd_nbr = i;
 		define_pipe_position(g);
-		write(1, "Where is my Mommy ? :( \n", 24);
 		child_process_bonus(g, g->av);
 	}
 	return ;
