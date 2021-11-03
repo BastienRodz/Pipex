@@ -6,7 +6,7 @@
 #    By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/15 17:18:05 by barodrig          #+#    #+#              #
-#    Updated: 2021/11/02 16:15:25 by barodrig         ###   ########.fr        #
+#    Updated: 2021/11/03 10:57:18 by barodrig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ CC = clang -g3 -Wall -Wextra -Werror
 
 INC= -I./includes
 
-BONUS= bonus/main.c srcs/ft_errors_manager.c bonus/ft_execute_cmds_bonus.c\
+BONUS= bonus/main.c srcs/ft_errors_manager.c srcs/ft_execute_cmds.c\
 
 SRCS = 	main ft_errors_manager ft_execute_cmds\
 

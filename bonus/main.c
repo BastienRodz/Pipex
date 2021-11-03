@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:37:28 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/02 16:14:51 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/03 10:50:42 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ char*	path_finder(char **envp)
 
 char**	get_path(char **envp)
 {
-	char *path;
-	char **paths;
+	char	*path;
+	char	**paths;
 
 	path = path_finder(envp);
 	if (*path)
@@ -69,7 +69,7 @@ void	define_pipe_position(t_global *g)
 void	launch_pipex(t_global *g)
 {
 	int	i;
-	int pid;
+	int	pid;
 
 	g->status = 0;
 	i = 0;
@@ -93,10 +93,8 @@ void	launch_pipex(t_global *g)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_global g;
-	char **gnl_line;
+	t_global	g;
 
-	gnl_line = NULL;
 	if (ac < 5)
 		_error(0, NULL);
 	g.path = get_path(envp);

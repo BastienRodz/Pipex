@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:16:47 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/27 15:58:42 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/03 10:56:55 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*testpath_builder(char *path, char *cmd)
 			free(path);
 		if (cmd)
 			free(cmd);
-		_error(2);
+		_error(2, NULL);
 	}
 	pathname = (char *)calloc(sizeof(char), (ft_strlen(path) + ft_strlen(cmd) + 2));
 	ft_strcat(path, pathname);
@@ -75,28 +75,37 @@ void	find_cmd_path(char **builtcmd, char **envp, char **path, int _pipe[2][2])
 ** Finally it will close the reading part of the _pipe and launch the cmd execution by calling find_cmd_path().
 **/
 
-void	child_process(char **av, char **envp, char **path, int _pipe[2][2])
+void	child_process_bonus(t_global *g, char **av)
 {
 	char	**builtcmd;
 	char	*error;
 
 	error = NULL;
 	builtcmd = NULL;
-	_pipe[0][0] = open(av[1], O_RDONLY, 0777);
-	if (_pipe[0][0] == -1)
+	if (g->pipe_before == 0)
 	{
-		ft_to_break_free(path);
-		error = strerror(errno);
-		write(2, "Error: ", 7);
-		write(2, error, ft_strlen(error));
-		write(2, "\n", 1);
-		exit(1);
+		g->_pipe[0][0] = open(av[1], O_RDONLY, 0777);
+		if (g->_pipe[0][0] == -1)
+		{
+			ft_to_break_free(g->path);
+			error = strerror(errno);
+			write(2, "Error: ", 7);
+			write(2, error, ft_strlen(error));
+			write(2, "\n", 1);
+			exit(1);
+		}
+		dup2(g->_pipe[1][1], STDOUT_FILENO);
+		dup2(g->_pipe[0][0], STDIN_FILENO);
+		close(g->_pipe[1][0]);
 	}
-	builtcmd = ft_split(av[2], ' ');
-	dup2(_pipe[1][1], STDOUT_FILENO);
-	dup2(_pipe[0][0], STDIN_FILENO);
-	close(_pipe[1][0]);
-	find_cmd_path(builtcmd, envp, path, _pipe);
+	else
+	{
+		dup2(g->_pipe[1][0], STDIN_FILENO);
+		dup2(g->_pipe[1][1], STDOUT_FILENO);
+		//close(_pipe[1][0]);
+	}
+	builtcmd = ft_split(av[g->cmd_nbr], ' ');
+	find_cmd_path(builtcmd, g->envp, g->path, g->_pipe);
 	return ;
 }
 
@@ -107,27 +116,27 @@ void	child_process(char **av, char **envp, char **path, int _pipe[2][2])
 ** Finally it will close the writing part of the _pipe and launch the cmd execution by calling find_cmd_path().
 **/
 
-void	parent_process(char **av, char **envp, char **path, int _pipe[2][2])
+void	parent_process_bonus(t_global *g, char **av)
 {
 	char	**builtcmd;
 	char	*error;
 
 	error = NULL;
 	builtcmd = NULL;
-	_pipe[0][1] = open(av[4], O_CREAT | O_WRONLY | O_TRUNC, 00700);
-	if (_pipe[0][1] == -1)
+	g->_pipe[0][1] = open(av[g->ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 00777);
+	if (g->_pipe[0][1] == -1)
 	{
-		ft_to_break_free(path);
+		ft_to_break_free(g->path);
 		error = strerror(errno);
 		write(2, "Error: ", 7);
 		write(2, error, ft_strlen(error));
 		write(2, "\n", 1);
 		exit(1);
 	}
-	builtcmd = ft_split(av[3], ' ');
-	dup2(_pipe[1][0], STDIN_FILENO);
-	dup2(_pipe[0][1], STDOUT_FILENO);
-	close(_pipe[1][1]);
-	find_cmd_path(builtcmd, envp, path, _pipe);
+	builtcmd = ft_split(av[g->ac - 2], ' ');
+	dup2(g->_pipe[1][0], STDIN_FILENO);
+	dup2(g->_pipe[0][1], STDOUT_FILENO);
+	close(g->_pipe[1][1]);
+	find_cmd_path(builtcmd, g->envp, g->path, g->_pipe);
 	return ;
 }

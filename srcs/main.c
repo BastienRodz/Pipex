@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:18:24 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/29 11:49:30 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/03 10:57:49 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ char*	path_finder(char **envp)
 
 char**	get_path(char **envp)
 {
-	char *path;
-	char **paths;
+	char	*path;
+	char	**paths;
 
 	path = path_finder(envp);
 	if (*path)
@@ -54,42 +54,60 @@ char**	get_path(char **envp)
 
 }
 
-void	launch_pipex(char **path, int _pipe[2][2], char **envp, char **av)
+void	define_pipe_position(t_global *g)
 {
-	int	pid;
-	int	status;
-
-	status = 0;
-	pid = fork();
-	if (pid == -1)
+	if (g->cmd_nbr == 2)
 	{
-		ft_to_break_free(path);
-		_error(3);
-	}
-	if (pid > 0)
-	{
-		waitpid(pid, &status, 0);
-		parent_process(av, envp, path, _pipe);
+		g->pipe_before = 0;
+		g->pipe_after = 1;
 	}
 	else
-		child_process(av, envp, path, _pipe);
+		g->pipe_before = 1;
+		g->pipe_after = 1;
+}
+
+void	launch_pipex(t_global *g)
+{
+	int	i;
+	int	pid;
+
+	g->status = 0;
+	i = 0;
+	while(++i < g->ac - 3 && pid != 0)
+		pid = fork();
+	if (pid == -1)
+			_error(3, g->path);
+	else if (pid > 0)
+	{
+		waitpid(pid, &g->status, 0);
+		parent_process_bonus(g, g->av);
+	}
+	else
+	{
+		g->cmd_nbr = i;
+		define_pipe_position(g);
+		child_process_bonus(g, g->av);
+	}
+	return ;
 }
 
 int	main(int ac, char **av, char **envp)
 {
-	char	**path;
-	int		_pipe[2][2];
+	t_global	g;
 
-	path = get_path(envp);
 	if (ac != 5)
-		_error(0);
-	if (!path)
-		_error(1);
-	if (pipe(_pipe[1]) == -1)
-	{
-		ft_to_break_free(path);
-		_error(3);
-	}
-	launch_pipex(path, _pipe, envp, av);
+		_error(0, NULL);
+	g.path = get_path(envp);
+	if (!g.path)
+		_error(1, NULL);
+	g.file1 = av[1];
+	g.file2 = av[ac];
+	g.ac = ac;
+	g.av = av;
+	g.envp = envp;
+	if (pipe(g._pipe[1]) == -1)
+		_error(3, g.path);
+	launch_pipex(&g);
+
 	return (0);
 }
