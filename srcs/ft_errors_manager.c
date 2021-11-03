@@ -19,18 +19,19 @@ void	ft_to_break_free(char **str)
 	i = 0;
 	if (!str)
 		return ;
-	while (str[i++])
+	while (str[i])
+	{
 		free(str[i]);
+		i++;
+	}
 	free(str);
 	return ;
 }
 void	_error_cmd(char **cmd, char *pathname, t_global *g)
 {
-	char	*error;
-
-	error = strerror(errno);
 	write(2, "Error: Command not found.\n", 26);
-	free(pathname);
+	if (pathname)
+		free(pathname);
 	ft_to_break_free(cmd);
 	ft_to_break_free(g->path);
 	exit(127);

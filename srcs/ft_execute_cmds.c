@@ -54,17 +54,14 @@ void	find_cmd_path(char **builtcmd, t_global *g)
 		free(pathname);
 		pathname = NULL;
 	}
-	free(builtcmd[0]);
-	builtcmd[0] = pathname;
 	if (pathname == NULL)
 		_error_cmd(builtcmd, pathname, g);
-	else
-	{
-		execve(pathname, builtcmd, g->envp);
-		ft_to_break_free(g->path);
-		ft_to_break_free(builtcmd);
-		exit(0);
-	}
+	free(builtcmd[0]);
+	builtcmd[0] = pathname;
+	execve(pathname, builtcmd, g->envp);
+	ft_to_break_free(g->path);
+	ft_to_break_free(builtcmd);
+	exit(0);
 	return ;
 }
 
