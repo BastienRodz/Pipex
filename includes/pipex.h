@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:36:00 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/02 16:15:03 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/03 11:19:36 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_global
 **/
 void	_error(int i, char	**to_free);
 void	ft_to_break_free(char **str);
-void	_error_cmd(char **cmd, int _pipe[2][2]);
+void	_error_cmd(char **cmd, t_global *g);
 
 /**
 ** EXECUTION

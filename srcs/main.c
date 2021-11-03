@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:18:24 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/03 10:57:49 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/03 11:07:09 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	launch_pipex(t_global *g)
 
 	g->status = 0;
 	i = 0;
+	pid = 1;
 	while(++i < g->ac - 3 && pid != 0)
 		pid = fork();
 	if (pid == -1)

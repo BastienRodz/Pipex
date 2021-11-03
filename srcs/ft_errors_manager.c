@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 13:46:10 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/29 11:28:32 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/03 11:20:04 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,14 @@ void	ft_to_break_free(char **str)
 	free(str);
 	return ;
 }
-void	_error_cmd(char **cmd, int _pipe[2][2])
+void	_error_cmd(char **cmd, t_global *g)
 {
 	char	*error;
 
-	close(_pipe[0][0]);
-	close(_pipe[0][1]);
 	error = strerror(errno);
 	write(2, "Error: Command not found.\n", 26);
 	ft_to_break_free(cmd);
+	ft_to_break_free(g->path);
 	exit(127);
 }
 

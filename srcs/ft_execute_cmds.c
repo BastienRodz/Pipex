@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:16:47 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/03 10:56:55 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/03 11:22:14 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ char	*testpath_builder(char *path, char *cmd)
 **	In case of success it will execve() the cmd path and its flags if there are some.
 **/
 
-void	find_cmd_path(char **builtcmd, char **envp, char **path, int _pipe[2][2])
+void	find_cmd_path(char **builtcmd, t_global *g)
 {
 	char	*pathname;
 	int		i;
 
 	i = -1;
 	pathname = NULL;
-	while (path[++i] && pathname == NULL)
+	while (g->path[++i] && pathname == NULL)
 	{
-		pathname = testpath_builder(path[i], builtcmd[0]);
+		pathname = testpath_builder(g->path[i], builtcmd[0]);
 		if (access(pathname, F_OK) == 0)
 			break;
 		free(pathname);
@@ -59,10 +59,12 @@ void	find_cmd_path(char **builtcmd, char **envp, char **path, int _pipe[2][2])
 	free(builtcmd[0]);
 	builtcmd[0] = pathname;
 	if (pathname == NULL)
-		_error_cmd(builtcmd, _pipe);
+		_error_cmd(builtcmd, g);
 	else
 	{
-		execve(pathname, builtcmd, envp);
+		execve(pathname, builtcmd, g->envp);
+		ft_to_break_free(g->path);
+		ft_to_break_free(builtcmd);
 		exit(0);
 	}
 	return ;
@@ -105,7 +107,7 @@ void	child_process_bonus(t_global *g, char **av)
 		//close(_pipe[1][0]);
 	}
 	builtcmd = ft_split(av[g->cmd_nbr], ' ');
-	find_cmd_path(builtcmd, g->envp, g->path, g->_pipe);
+	find_cmd_path(builtcmd, g);
 	return ;
 }
 
@@ -137,6 +139,6 @@ void	parent_process_bonus(t_global *g, char **av)
 	dup2(g->_pipe[1][0], STDIN_FILENO);
 	dup2(g->_pipe[0][1], STDOUT_FILENO);
 	close(g->_pipe[1][1]);
-	find_cmd_path(builtcmd, g->envp, g->path, g->_pipe);
+	find_cmd_path(builtcmd, g);
 	return ;
 }
