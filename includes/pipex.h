@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:36:00 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/03 11:19:36 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/03 13:29:30 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,12 @@ typedef struct s_global
 **/
 void	_error(int i, char	**to_free);
 void	ft_to_break_free(char **str);
-void	_error_cmd(char **cmd, t_global *g);
+void	_error_cmd(char **cmd, char *pathname, t_global *g);
 
 /**
 ** EXECUTION
 **/
-void	parent_process(t_global *g);
-void	child_process(t_global *g);
-
-/**
-** BONUS
-**/
-void	parent_process_bonus(t_global *g, char **av);
-void	child_process_bonus(t_global *g, char **av);
+void	parent_process(t_global *g, char **av);
+void	child_process(t_global *g, char **av);
 
 #endif

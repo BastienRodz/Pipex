@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:18:24 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/03 11:07:09 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/03 13:31:21 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,13 @@ void	launch_pipex(t_global *g)
 	else if (pid > 0)
 	{
 		waitpid(pid, &g->status, 0);
-		parent_process_bonus(g, g->av);
+		parent_process(g, g->av);
 	}
 	else
 	{
 		g->cmd_nbr = i;
 		define_pipe_position(g);
-		child_process_bonus(g, g->av);
+		child_process(g, g->av);
 	}
 	return ;
 }

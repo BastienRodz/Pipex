@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:16:47 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/03 11:22:14 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/03 13:35:07 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,18 @@
 ** As its name says "testpath_builder" will create a path to try to access our command.
 **/
 
-char	*testpath_builder(char *path, char *cmd)
+char	*testpath_builder(t_global *g, char *cmd, int i)
 {
 	char	*pathname;
 
 	if (cmd == NULL)
 	{
-		if (path)
-			free(path);
 		if (cmd)
 			free(cmd);
-		_error(2, NULL);
+		_error(2, g->path);
 	}
-	pathname = (char *)calloc(sizeof(char), (ft_strlen(path) + ft_strlen(cmd) + 2));
-	ft_strcat(path, pathname);
+	pathname = (char *)calloc(sizeof(char), (ft_strlen(g->path[i]) + ft_strlen(cmd) + 2));
+	ft_strcat(g->path[i], pathname);
 	ft_strcat("/", pathname);
 	ft_strcat(cmd, pathname);
 	return (pathname);
@@ -50,7 +48,7 @@ void	find_cmd_path(char **builtcmd, t_global *g)
 	pathname = NULL;
 	while (g->path[++i] && pathname == NULL)
 	{
-		pathname = testpath_builder(g->path[i], builtcmd[0]);
+		pathname = testpath_builder(g, builtcmd[0], i);
 		if (access(pathname, F_OK) == 0)
 			break;
 		free(pathname);
@@ -59,7 +57,7 @@ void	find_cmd_path(char **builtcmd, t_global *g)
 	free(builtcmd[0]);
 	builtcmd[0] = pathname;
 	if (pathname == NULL)
-		_error_cmd(builtcmd, g);
+		_error_cmd(builtcmd, pathname, g);
 	else
 	{
 		execve(pathname, builtcmd, g->envp);
@@ -77,7 +75,7 @@ void	find_cmd_path(char **builtcmd, t_global *g)
 ** Finally it will close the reading part of the _pipe and launch the cmd execution by calling find_cmd_path().
 **/
 
-void	child_process_bonus(t_global *g, char **av)
+void	child_process(t_global *g, char **av)
 {
 	char	**builtcmd;
 	char	*error;
@@ -118,7 +116,7 @@ void	child_process_bonus(t_global *g, char **av)
 ** Finally it will close the writing part of the _pipe and launch the cmd execution by calling find_cmd_path().
 **/
 
-void	parent_process_bonus(t_global *g, char **av)
+void	parent_process(t_global *g, char **av)
 {
 	char	**builtcmd;
 	char	*error;
