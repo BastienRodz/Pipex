@@ -6,7 +6,7 @@
 #    By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/08 16:35:39 by barodrig          #+#    #+#              #
-#    Updated: 2021/10/27 11:30:21 by barodrig         ###   ########.fr        #
+#    Updated: 2021/11/03 21:54:34 by barodrig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,12 +31,12 @@ OBJ_BONUS = $(BONUS:.c=.o)
 all: $(NAME)
 
 $(NAME):
-	@gcc -g $(CFLAGS) -I $(INCLUDE) -c $(SRC)
+	@clang $(CFLAGS) -I$(INCLUDE) -c $(SRC)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
 
 bonus:
-	@gcc -g $(CFLAGS) -I $(INCLUDE) -c $(SRC) $(BONUS)
+	@clang $(CFLAGS) -I$(INCLUDE) -c $(SRC) $(BONUS)
 	@ar rc $(NAME) $(OBJ) $(OBJ_BONUS)
 	@ranlib $(NAME)
 
