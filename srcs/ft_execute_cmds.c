@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:16:47 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/04 11:29:35 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/04 13:44:19 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ void	child_process(t_global *g, char **av)
 		close(g->_pipe[1][0]);
 	}
 	builtcmd = ft_split(av[g->cmd_nbr], ' ');
+	if (!builtcmd)
+		_error_cmd(builtcmd, NULL, g);
 	find_cmd_path(builtcmd, g);
 	return ;
 }
@@ -123,14 +125,14 @@ void	child_process(t_global *g, char **av)
 void	parent_process(t_global *g, char **av)
 {
 	char	**builtcmd;
-	char	*error;
 
-	error = NULL;
 	builtcmd = NULL;
 	g->_pipe[0][1] = open(av[g->ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 00777);
 	if (g->_pipe[0][1] == -1)
 		_error_pipe(g);
 	builtcmd = ft_split(av[g->ac - 2], ' ');
+	if (!builtcmd)
+		_error_cmd(builtcmd, NULL, g);
 	dup2(g->_pipe[1][0], STDIN_FILENO);
 	dup2(g->_pipe[0][1], STDOUT_FILENO);
 	close(g->_pipe[1][1]);
