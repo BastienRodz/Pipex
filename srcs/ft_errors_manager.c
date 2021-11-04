@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 13:46:10 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/04 13:18:16 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/04 14:03:43 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ void	_error_next(int i, char **to_free)
 {
 	if (i == 3)
 	{
-		write(1, "Error: Pipe creation error.\n", 28);
+		write(2, "Error: Pipe creation error.\n", 28);
 		ft_to_break_free(to_free);
 		exit(1);
 	}
 	else if (i == 4)
 	{
-		write(1, "Error: Malloc alocation error.\n", 31);
+		write(2, "Error: Malloc alocation error.\n", 31);
 		ft_to_break_free(to_free);
 		exit(11);
 	}
@@ -75,19 +75,19 @@ void	_error(int i, char **to_free)
 {
 	if (i == 0)
 	{
-		write(1, "Error: You need 4 arguments to make this program run.\n", 54);
+		write(2, "Error: You need 4 arguments to make this program run.\n", 54);
 		ft_to_break_free(to_free);
 		exit(1);
 	}
 	else if (i == 1)
 	{
-		write(1, "Error: Can't get command path in environment variable.\n", 55);
+		write(2, "Error: Can't get command path in environment variable.\n", 55);
 		ft_to_break_free(to_free);
 		exit(1);
 	}
 	else if (i == 2)
 	{
-		write(1, "Error: Command not found.\n", 26);
+		write(2, "Error: Command not found.\n", 26);
 		ft_to_break_free(to_free);
 		exit(127);
 	}
