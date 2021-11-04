@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:39:06 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/04 10:54:00 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/04 11:33:18 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ char	**ft_split(char const *src, char charset)
 		ft_strlcpy(split[i], src, len + 1);
 		src = src + len;
 	}
-	split[i] = NULL;
+	split[i + 1] = NULL;
 	return (split);
 }
