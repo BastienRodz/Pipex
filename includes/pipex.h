@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:36:00 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/03 13:29:30 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/04 10:49:58 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ typedef struct s_global
 	char			**envp;
 	char			**path;
 	int				status;
-	int				here_doc;
-	char			*LIMITER;
 }					t_global;
 
 /**
@@ -47,6 +45,7 @@ typedef struct s_global
 void	_error(int i, char	**to_free);
 void	ft_to_break_free(char **str);
 void	_error_cmd(char **cmd, char *pathname, t_global *g);
+void	_error_pipe(t_global *g);
 
 /**
 ** EXECUTION

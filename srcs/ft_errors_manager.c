@@ -6,11 +6,24 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 13:46:10 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/03 13:28:04 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/04 10:49:14 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+
+void	_error_pipe(t_global *g)
+{
+	char	*error;
+
+	error = NULL;
+	ft_to_break_free(g->path);
+	error = strerror(errno);
+	write(2, "Error: ", 7);
+	write(2, error, ft_strlen(error));
+	write(2, "\n", 1);
+	exit(1);
+}
 
 void	ft_to_break_free(char **str)
 {
@@ -27,6 +40,7 @@ void	ft_to_break_free(char **str)
 	free(str);
 	return ;
 }
+
 void	_error_cmd(char **cmd, char *pathname, t_global *g)
 {
 	write(2, "Error: Command not found.\n", 26);
@@ -37,29 +51,11 @@ void	_error_cmd(char **cmd, char *pathname, t_global *g)
 	exit(127);
 }
 
-void	_error(int i, char **to_free)
+void	_error_next(int i, char **to_free)
 {
-	if (i == 0)
+	if (i == 3)
 	{
-		write(1, "You need 4 arguments to make this program run.\n", 47);
-		ft_to_break_free(to_free);
-		exit(1);
-	}
-	else if	(i == 1)
-	{
-		write(1, "ERROR WHILE GETTING CMD PATHS IN ENVIRONMENT VARIABLES.\n", 56);
-		ft_to_break_free(to_free);
-		exit(1);
-	}
-	else if	(i == 2)
-	{
-		write(1, "ONE OF THE ARGUMENT IS EMPTY.\n", 30);
-		ft_to_break_free(to_free);
-		exit(1);
-	}
-	else if	(i == 3)
-	{
-		write(1, "ERROR WHILE CREATING PIPE.\n", 27);
+		write(1, "Error: Pipe creation error.\n", 28);
 		ft_to_break_free(to_free);
 		exit(1);
 	}
@@ -69,5 +65,31 @@ void	_error(int i, char **to_free)
 		ft_to_break_free(to_free);
 		exit(11);
 	}
+	else
+		return ;
+}
+
+void	_error(int i, char **to_free)
+{
+	if (i == 0)
+	{
+		write(1, "Error: You need 4 arguments to make this program run.\n", 54);
+		ft_to_break_free(to_free);
+		exit(1);
+	}
+	else if (i == 1)
+	{
+		write(1, "Error: Can't get command path in environment variable.\n", 55);
+		ft_to_break_free(to_free);
+		exit(1);
+	}
+	else if (i == 2)
+	{
+		write(1, "Error: Command not found.\n", 26);
+		ft_to_break_free(to_free);
+		exit(127);
+	}
+	else
+		_error_next(i, to_free);
 	return ;
 }

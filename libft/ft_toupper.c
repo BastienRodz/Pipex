@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 11:49:04 by barodrig          #+#    #+#             */
-/*   Updated: 2021/10/15 16:55:09 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/04 10:54:32 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,5 @@ int	ft_toupper(int c)
 {
 	if (c >= 97 && c <= 122)
 		return (c - 32);
-	else
-		return (c);
+	return (c);
 }

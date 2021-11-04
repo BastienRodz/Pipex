@@ -6,13 +6,13 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:18:24 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/03 13:31:21 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/04 10:36:57 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-char*	path_finder(char **envp)
+char	*path_finder(char **envp)
 {
 	int		i;
 	int		j;
@@ -37,7 +37,7 @@ char*	path_finder(char **envp)
 	return (NULL);
 }
 
-char**	get_path(char **envp)
+char	**get_path(char **envp)
 {
 	char	*path;
 	char	**paths;
@@ -51,7 +51,6 @@ char**	get_path(char **envp)
 	}
 	else
 		return (NULL);
-
 }
 
 void	define_pipe_position(t_global *g)
@@ -62,8 +61,11 @@ void	define_pipe_position(t_global *g)
 		g->pipe_after = 1;
 	}
 	else
+	{
 		g->pipe_before = 1;
 		g->pipe_after = 1;
+	}
+	return ;
 }
 
 void	launch_pipex(t_global *g)
@@ -74,10 +76,10 @@ void	launch_pipex(t_global *g)
 	g->status = 0;
 	i = 0;
 	pid = 1;
-	while(++i < g->ac - 3 && pid != 0)
+	while (++i < g->ac - 3 && pid != 0)
 		pid = fork();
 	if (pid == -1)
-			_error(3, g->path);
+		_error(3, g->path);
 	else if (pid > 0)
 	{
 		waitpid(pid, &g->status, 0);
@@ -109,6 +111,5 @@ int	main(int ac, char **av, char **envp)
 	if (pipe(g._pipe[1]) == -1)
 		_error(3, g.path);
 	launch_pipex(&g);
-
 	return (0);
 }

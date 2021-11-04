@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:39:06 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/03 12:21:42 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/04 10:54:00 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ char	**ft_split(char const *src, char charset)
 	int		len;
 	int		i;
 
-	i = 0;
+	i = -1;
 	if (!src)
 		return (NULL);
 	words = ft_count_words(src, charset);
 	split = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!(split))
 		return (NULL);
-	while (words--)
+	while (words-- && ++i > -2)
 	{
 		while (*src == charset && *src)
 			src++;
@@ -75,7 +75,6 @@ char	**ft_split(char const *src, char charset)
 		if (!(split[i]))
 			return (ft_leak(split));
 		ft_strlcpy(split[i], src, len + 1);
-		i++;
 		src = src + len;
 	}
 	split[i] = NULL;
