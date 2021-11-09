@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 13:46:10 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/04 14:03:43 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/09 15:00:44 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,6 @@ void	_error(int i, char **to_free)
 	if (i == 0)
 	{
 		write(2, "Error: You need 4 arguments to make this program run.\n", 54);
-		ft_to_break_free(to_free);
-		exit(1);
-	}
-	else if (i == 1)
-	{
-		write(2, "Error: Can't get command path in environment variable.\n", 55);
 		ft_to_break_free(to_free);
 		exit(1);
 	}

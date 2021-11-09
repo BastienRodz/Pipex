@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:18:24 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/04 10:36:57 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/09 15:01:35 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	**get_path(char **envp)
 	char	**paths;
 
 	path = path_finder(envp);
-	if (*path)
+	if (path)
 	{
 		path = path + 5;
 		paths = ft_split(path, ':');
@@ -101,8 +101,6 @@ int	main(int ac, char **av, char **envp)
 	if (ac != 5)
 		_error(0, NULL);
 	g.path = get_path(envp);
-	if (!g.path)
-		_error(1, NULL);
 	g.file1 = av[1];
 	g.file2 = av[ac];
 	g.ac = ac;

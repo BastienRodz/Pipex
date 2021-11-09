@@ -6,17 +6,15 @@
 #    By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/15 17:18:05 by barodrig          #+#    #+#              #
-#    Updated: 2021/11/04 13:42:38 by barodrig         ###   ########.fr        #
+#    Updated: 2021/11/04 14:23:32 by barodrig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SHELL	= /bin/sh
 
-OS	:= $(shell uname -s)
-
 NAME = pipex
 
-CC = clang -g3 -Wall -Wextra -Werror
+CC = clang -Wall -Wextra -Werror
 
 INC= -I./includes
 
@@ -44,12 +42,14 @@ $(NAME): $(OBJ)
 	@echo "--> [OK]"
 	@echo "Now write : ./pipex file1 | cmd1 | cmd2 | cmd... | cmdX | file2"
 
-bonus: $(OBJ_BONUS)
+bonus: $(NAME)_bonus
+
+$(NAME)_bonus : $(OBJ_BONUS)
 	@echo "Compiling libft..."
 	@make -s -C ./libft
 	@echo "--> [OK]"
 	@echo "Compiling pipex with bonus...."
-	-@$(CC) $(INC) $(OBJ_BONUS) -Llibft -lft -o $(NAME)
+	-@$(CC) $(INC) $(OBJ_BONUS) -Llibft -lft -o $(NAME)_bonus
 	@echo "--> [OK]"
 	@echo "Now write : ./pipex file1 | cmd1 | cmd2 | cmd... | cmdX | file2"
 
@@ -62,9 +62,8 @@ clean:
 fclean: clean
 	@make -s fclean -C ./libft
 	@rm -f $(NAME)
+	@rm -f $(NAME)_bonus
 
 re: fclean all
-
-.SILENT: clean
 
 .PHONY: all clean fclean re bonus

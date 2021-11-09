@@ -6,7 +6,7 @@
 /*   By: barodrig <barodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:16:47 by barodrig          #+#    #+#             */
-/*   Updated: 2021/11/04 13:44:19 by barodrig         ###   ########.fr       */
+/*   Updated: 2021/11/09 15:02:12 by barodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ void	find_cmd_path(char **builtcmd, t_global *g)
 
 	i = -1;
 	pathname = NULL;
-	while (g->path[++i] && pathname == NULL)
+	if (access(builtcmd[0], F_OK) == 0)
+		pathname = builtcmd[0];
+	while (g->path && g->path[++i] && pathname == NULL)
 	{
 		pathname = testpath_builder(g, builtcmd[0], i);
 		if (access(pathname, F_OK) == 0)
